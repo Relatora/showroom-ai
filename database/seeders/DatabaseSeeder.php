@@ -2,24 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use Database\Seeders\Demo\DemoDealershipSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    // Model events stay off while seeding. Indexing for the assistant is kicked off explicitly
+    // afterwards (showroom:index), rather than queuing hundreds of jobs from observers mid-seed.
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $this->call(DemoDealershipSeeder::class);
     }
 }
