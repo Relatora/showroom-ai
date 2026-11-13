@@ -12,6 +12,9 @@ services:
     laravel.test:
         volumes:
             - 'sail-vendor:/var/www/html/vendor'
+    horizon:
+        volumes:
+            - 'sail-vendor:/var/www/html/vendor'
 
 volumes:
     sail-vendor:
