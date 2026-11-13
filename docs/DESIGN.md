@@ -21,18 +21,18 @@ dealership CRM. The repo must show three things:
 
 ## 2. Stack
 
-| Concern       | Choice                                              | Notes                                                                                                       |
-| ------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Backend       | Laravel 13, PHP 8.4                                 | Runs in Docker via **Laravel Sail**, so PHP doesn't need installing on Windows                              |
-| Frontend      | Inertia 3 + Vue 3.5 + TypeScript + Tailwind 4       | Laravel's official Vue starter kit                                                                          |
-| Database      | PostgreSQL 17 + **pgvector**                        | Holds app data, embeddings and full-text indexes                                                            |
-| Queue / cache | Redis + **Horizon**                                 | Ingestion and embedding run as queued jobs                                                                  |
-| File storage  | **RustFS** in Docker, which speaks the S3 API       | Free and local. AWS S3 is paid, so it is not used. Moving to S3 later is a config change only (ADR-004)     |
-| LLM           | **Ollama**, native on Windows with the RTX 3070 GPU | Chat model `qwen3:8b` or `qwen2.5:7b` (~5 GB VRAM, Q4), picked in Phase 0 by a quick quality and speed test |
-| Embeddings    | Ollama `nomic-embed-text` (768 dimensions)          |                                                                                                             |
-| LLM client    | **Prism PHP**                                       | Changing provider (e.g. OpenAI or Bedrock) is a config change                                               |
-| MCP           | **`laravel/mcp`**, the official package             | HTTP transport with Sanctum tokens, plus stdio for Claude Desktop                                           |
-| Quality       | Pest, Larastan, Pint, ESLint, vue-tsc               | One local CI script (`composer ci`). GitHub Actions is locked on this account, so CI runs locally           |
+| Concern       | Choice                                              | Notes                                                                                                                    |
+| ------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Backend       | Laravel 13, PHP 8.4                                 | Runs in Docker via **Laravel Sail**, so PHP doesn't need installing on Windows                                           |
+| Frontend      | Inertia 3 + Vue 3.5 + TypeScript + Tailwind 4       | Laravel's official Vue starter kit                                                                                       |
+| Database      | PostgreSQL 17 + **pgvector**                        | Holds app data, embeddings and full-text indexes                                                                         |
+| Queue / cache | Redis + **Horizon**                                 | Ingestion and embedding run as queued jobs                                                                               |
+| File storage  | **RustFS** in Docker, which speaks the S3 API       | Free and local. AWS S3 is paid, so it is not used. Moving to S3 later is a config change only (ADR-004)                  |
+| LLM           | **Ollama**, native on Windows with the RTX 3070 GPU | Chat model `qwen3:8b` or `qwen2.5:7b` (~5 GB VRAM, Q4), picked in Phase 0 by a quick quality and speed test              |
+| Embeddings    | Ollama `nomic-embed-text` (768 dimensions)          |                                                                                                                          |
+| LLM client    | **Laravel AI SDK** (`laravel/ai`)                   | First-party: agents, tools, streaming, embeddings, pgvector helpers and test fakes. Changing provider is a config change |
+| MCP           | **`laravel/mcp`**, the official package             | HTTP transport with Sanctum tokens, plus stdio for Claude Desktop                                                        |
+| Quality       | Pest, Larastan, Pint, ESLint, vue-tsc               | One local CI script (`composer ci`). GitHub Actions is locked on this account, so CI runs locally                        |
 
 The Docker containers reach Ollama at `http://host.docker.internal:11434`. A
 `docker compose --profile ollama` option is also provided so a reviewer without a GPU
@@ -105,7 +105,7 @@ contacted in 3 days, and what stock fits them?"_
 
 ## 6. Proving it works
 
-- **Pest tests** for policies, ingestion jobs (with the LLM faked), retrieval ranking, and every MCP tool.
+- **Pest tests** for policies, ingestion jobs (with the AI SDK fakes), retrieval ranking, and every MCP tool.
 - **RAG evaluation:** `php artisan showroom:eval` runs ~25 questions with known correct
   sources and reports hit@5 and MRR. Results are committed, so changes to chunking or
   ranking show up as a before/after score.
