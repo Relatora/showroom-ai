@@ -1,0 +1,18 @@
+# Optional speed-up for Docker Desktop on Windows (without WSL) and macOS.
+#
+# Bind-mounted folders are slow there, and PHP reads thousands of files from vendor/ on every
+# request and test. Keeping vendor/ in a Docker volume makes Composer, tests and page loads
+# several times faster. Copy this file to compose.override.yaml, then run:
+#
+#   ./vendor/bin/sail up -d && ./vendor/bin/sail composer install
+#
+# Trade-off: your editor won't see the container's vendor/ folder, so keep a host copy too
+# (the README's first `composer install` already gives you one).
+services:
+    laravel.test:
+        volumes:
+            - 'sail-vendor:/var/www/html/vendor'
+
+volumes:
+    sail-vendor:
+        driver: local
