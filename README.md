@@ -10,7 +10,7 @@ through an MCP server. Everything runs locally and costs nothing.
 ## Stack
 
 Laravel 13 · Inertia 3 · Vue 3 + TypeScript · Tailwind 4 · PostgreSQL + pgvector · Redis +
-Horizon · RustFS (S3-compatible) · Ollama · Prism · Laravel MCP
+Horizon · RustFS (S3-compatible) · Ollama · Laravel AI SDK · Laravel MCP
 
 ## Running it locally
 
