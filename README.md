@@ -22,7 +22,9 @@ docker run --rm -v "$(pwd):/app" -w /app composer:2 composer install --ignore-pl
 ./vendor/bin/sail up -d
 ./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail artisan showroom:storage-init
 npm install && npm run dev
 ```
 
-Then open http://localhost.
+Then open http://localhost. Horizon (queues) is at http://localhost/horizon and the RustFS
+console at http://localhost:9001.

@@ -60,6 +60,23 @@ return [
             'report' => false,
         ],
 
+        // Uploaded dealership documents (spec sheets, warranty booklets, policies). Locally this
+        // points at RustFS, in production at a real S3 bucket. Same driver, different .env, see
+        // ADR-004. It throws on failure because a silently missing upload is worse than an error.
+        'documents' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('DOCUMENTS_BUCKET', env('AWS_BUCKET')),
+            'url' => env('AWS_URL'),
+            'endpoint' => env('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'visibility' => 'private',
+            'throw' => true,
+            'report' => true,
+        ],
+
     ],
 
     /*
