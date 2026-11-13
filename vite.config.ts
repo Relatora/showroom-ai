@@ -29,7 +29,15 @@ export default defineConfig({
             refresh: true,
             fonts: [
                 bunny('Instrument Sans', {
-                    weights: [400, 500, 600],
+                    weights: [400, 500, 600, 700],
+                }),
+                // Display face for headings and big numbers: wide, a little automotive.
+                bunny('Unbounded', {
+                    weights: [500, 600, 700],
+                }),
+                // VINs, stock numbers and prices line up properly in a monospace face.
+                bunny('JetBrains Mono', {
+                    weights: [400, 500],
                 }),
             ],
         }),
