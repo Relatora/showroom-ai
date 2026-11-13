@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#
+# Runs the quality gate before anything leaves your machine. Opt in once with:
+#
+#   git config core.hooksPath .githooks
+#
+# Skip it in an emergency with `git push --no-verify`, and say so in the PR.
+
+exec ./scripts/ci.sh
