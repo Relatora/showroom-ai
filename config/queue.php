@@ -73,6 +73,18 @@ return [
             'after_commit' => false,
         ],
 
+        // Model work can legitimately take minutes on a laptop GPU (or longer on CPU). retry_after
+        // has to sit above the worker timeout in config/horizon.php, otherwise Redis hands the
+        // same job to a second worker while the first one is still busy with it.
+        'redis-ai' => [
+            'driver' => 'redis',
+            'connection' => env('REDIS_QUEUE_CONNECTION', 'default'),
+            'queue' => 'ai',
+            'retry_after' => 660,
+            'block_for' => null,
+            'after_commit' => true,
+        ],
+
         'deferred' => [
             'driver' => 'deferred',
         ],
