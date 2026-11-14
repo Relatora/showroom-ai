@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Enums\BodyStyle;
+use App\Enums\LeadStage;
 use App\Enums\Powertrain;
 use App\Enums\VehicleCondition;
 use App\Enums\VehicleStatus;
@@ -48,7 +49,7 @@ class VehicleController extends Controller
         [$column, $direction] = self::SORTS[$filters['sort'] ?? 'newest'];
 
         $vehicles = Vehicle::query()
-            ->withCount(['leads' => fn (Builder $q) => $q->open()])
+            ->withCount(['leads' => fn (Builder $q) => $q->whereIn('stage', LeadStage::open())])
             ->when($filters['q'] ?? null, function (Builder $q, string $term) {
                 $like = '%'.str_replace(['%', '_'], ['\%', '\_'], $term).'%';
 
