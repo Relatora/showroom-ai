@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Appointments\AppointmentController;
+use App\Http\Controllers\Assistant\AssistantController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Inventory\VehicleController;
 use App\Http\Controllers\Knowledge\DocumentController;
@@ -29,6 +30,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('knowledge/{document}', [DocumentController::class, 'show'])->name('knowledge.show');
     Route::post('knowledge/{document}/reindex', [DocumentController::class, 'reindex'])->name('knowledge.reindex');
     Route::delete('knowledge/{document}', [DocumentController::class, 'destroy'])->name('knowledge.destroy');
+
+    Route::get('assistant', [AssistantController::class, 'index'])->name('assistant.index');
+    // Each answer keeps the model busy for a while, so one person can't queue up dozens.
+    Route::post('assistant/ask', [AssistantController::class, 'ask'])
+        ->middleware('throttle:assistant')
+        ->name('assistant.ask');
 });
 
 require __DIR__.'/settings.php';

@@ -36,6 +36,19 @@ final readonly class RetrievedChunk
     }
 
     /**
+     * For documents, the section within it ("How long an offer is valid"). Five passages from
+     * the same policy all share a label, so this is what tells them apart.
+     */
+    public function section(): ?string
+    {
+        if ($this->chunk->source_type !== 'document' || ! str_contains($this->chunk->heading ?? '', ':')) {
+            return null;
+        }
+
+        return trim(explode(':', (string) $this->chunk->heading, 2)[1]);
+    }
+
+    /**
      * Where a citation should take you. Timeline notes open the lead they belong to.
      */
     public function url(): ?string
@@ -52,7 +65,7 @@ final readonly class RetrievedChunk
     }
 
     /**
-     * @return array{id: int, type: string, label: string, heading: string|null, excerpt: string, url: string|null, score: float}
+     * @return array{id: int, type: string, label: string, section: string|null, excerpt: string, url: string|null, score: float}
      */
     public function toArray(): array
     {
@@ -60,7 +73,7 @@ final readonly class RetrievedChunk
             'id' => $this->chunk->id,
             'type' => $this->chunk->source_type,
             'label' => $this->label(),
-            'heading' => $this->chunk->heading,
+            'section' => $this->section(),
             'excerpt' => mb_strimwidth($this->chunk->content, 0, 220, '…'),
             'url' => $this->url(),
             'score' => round($this->score, 4),

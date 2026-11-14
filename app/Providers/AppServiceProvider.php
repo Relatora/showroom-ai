@@ -9,11 +9,13 @@ use App\Models\Lead;
 use App\Models\User;
 use App\Models\Vehicle;
 use Carbon\CarbonImmutable;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -33,6 +35,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->configureRateLimits();
+    }
+
+    /**
+     * Every AI request ties up the local model for seconds (much longer on a CPU), so the AI
+     * endpoints share a per-user budget. Generous for a person, tight for a script.
+     */
+    protected function configureRateLimits(): void
+    {
+        RateLimiter::for('assistant', fn ($request) => Limit::perMinute(10)->by($request->user()?->id ?: $request->ip()));
     }
 
     /**
