@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Appointments\AppointmentController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Inventory\VehicleController;
 use App\Http\Controllers\Leads\LeadActivityController;
 use App\Http\Controllers\Leads\LeadController;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::inertia('/', 'Welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('leads', LeadController::class)->only(['index', 'show', 'store', 'update']);
     Route::patch('leads/{lead}/stage', [LeadStageController::class, 'update'])->name('leads.stage.update');
