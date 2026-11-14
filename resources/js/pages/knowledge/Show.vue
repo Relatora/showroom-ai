@@ -82,8 +82,9 @@ defineOptions({
             <ol class="flex flex-col gap-3">
                 <li
                     v-for="chunk in chunks"
+                    :id="`passage-${chunk.position}`"
                     :key="chunk.id"
-                    class="rounded-xl border bg-card p-4"
+                    class="scroll-mt-20 rounded-xl border bg-card p-4 transition-shadow target:ring-2 target:ring-primary"
                 >
                     <div class="mb-2 flex items-baseline justify-between gap-3">
                         <h3 class="text-sm font-bold">
