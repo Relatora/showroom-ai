@@ -127,6 +127,8 @@ return [
             'driver' => 'ollama',
             'key' => env('OLLAMA_API_KEY', ''),
             'url' => env('OLLAMA_URL', 'http://localhost:11434'),
+            // Set to 0 to force CPU (see App\Ai\LocalModelOptions). Unset lets Ollama decide.
+            'num_gpu' => env('OLLAMA_NUM_GPU'),
             'models' => [
                 'text' => [
                     'default' => env('AI_CHAT_MODEL', 'qwen2.5:7b'),
