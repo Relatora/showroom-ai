@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Database\Seeders\Demo\DemoDealershipSeeder;
+use Database\Seeders\Demo\DemoDocumentsSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,6 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->call(DemoDealershipSeeder::class);
+        $this->call([DemoDealershipSeeder::class, DemoDocumentsSeeder::class]);
     }
 }
