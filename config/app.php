@@ -65,7 +65,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    // The demo dealership is in the GTA, so seeded opening hours and appointments use local time.
+    'timezone' => env('APP_TIMEZONE', 'America/Toronto'),
 
     /*
     |--------------------------------------------------------------------------
