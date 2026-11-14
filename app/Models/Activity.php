@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Contracts\Indexable;
 use App\Enums\ActivityType;
+use App\Observers\KnowledgeObserver;
+use App\Services\Knowledge\ChunkDraft;
 use Carbon\CarbonImmutable;
 use Database\Factories\ActivityFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,7 +33,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read User|null $user
  */
 #[Fillable(['lead_id', 'user_id', 'type', 'body', 'meta', 'occurred_at'])]
-class Activity extends Model
+#[ObservedBy(KnowledgeObserver::class)]
+class Activity extends Model implements Indexable
 {
     /** @use HasFactory<ActivityFactory> */
     use HasFactory;
@@ -57,5 +62,28 @@ class Activity extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Notes, calls and emails are where the real detail lives ("tows a 2,000 lb boat"). Stage
+     * changes are just bookkeeping, so they aren't indexed.
+     */
+    public function toChunks(): array
+    {
+        if ($this->type === ActivityType::StageChange) {
+            return [];
+        }
+
+        $this->loadMissing(['lead.customer', 'user']);
+
+        $by = $this->user ? " by {$this->user->name}" : '';
+        $content = "{$this->type->label()}{$by} on {$this->occurred_at->format('M j, Y')}: {$this->body}";
+
+        return [new ChunkDraft($content, "Timeline: {$this->lead->customer->name}")];
+    }
+
+    public function indexLeadId(): ?int
+    {
+        return $this->lead_id;
     }
 }

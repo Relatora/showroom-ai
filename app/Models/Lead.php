@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Contracts\Indexable;
 use App\Enums\LeadSource;
 use App\Enums\LeadStage;
 use App\Enums\LeadTemperature;
+use App\Observers\KnowledgeObserver;
+use App\Services\Knowledge\ChunkDraft;
 use Carbon\CarbonImmutable;
 use Database\Factories\LeadFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,7 +47,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'customer_id', 'assigned_user_id', 'vehicle_id', 'source', 'stage', 'temperature', 'budget_max',
     'interest', 'trade_in', 'position', 'last_contacted_at', 'next_follow_up_at', 'closed_at', 'lost_reason',
 ])]
-class Lead extends Model
+#[ObservedBy(KnowledgeObserver::class)]
+class Lead extends Model implements Indexable
 {
     /** @use HasFactory<LeadFactory> */
     use HasFactory;
@@ -150,5 +155,31 @@ class Lead extends Model
             ->where(fn (Builder $q) => $q
                 ->whereNull('last_contacted_at')
                 ->orWhere('last_contacted_at', '<', now()->subDays(self::STALE_AFTER_DAYS)));
+    }
+
+    /**
+     * A summary of what this customer wants, so "who's looking for a truck that tows 7,000 lb?"
+     * finds them even if nobody wrote it in a note.
+     */
+    public function toChunks(): array
+    {
+        $this->loadMissing(['customer', 'assignee', 'vehicle']);
+
+        $content = implode(' ', array_filter([
+            "{$this->customer->name} is a {$this->temperature->label()} lead in the {$this->stage->label()} stage, from {$this->source->label()}.",
+            "Looking for: {$this->interest}",
+            $this->budget_max ? 'Budget up to $'.number_format($this->budget_max).'.' : null,
+            $this->trade_in ? "Trade-in: {$this->trade_in}." : null,
+            $this->vehicle ? "Interested in the {$this->vehicle->title} ({$this->vehicle->stock_number})." : null,
+            $this->assignee ? "Sales rep: {$this->assignee->name}." : 'Not assigned to a rep yet.',
+            $this->lost_reason ? "Lost because: {$this->lost_reason}." : null,
+        ]));
+
+        return [new ChunkDraft($content, "Lead: {$this->customer->name}")];
+    }
+
+    public function indexLeadId(): ?int
+    {
+        return $this->id;
     }
 }

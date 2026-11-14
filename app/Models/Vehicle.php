@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use App\Contracts\Indexable;
 use App\Enums\BodyStyle;
 use App\Enums\Drivetrain;
 use App\Enums\Powertrain;
 use App\Enums\VehicleCondition;
 use App\Enums\VehicleStatus;
+use App\Observers\KnowledgeObserver;
+use App\Services\Knowledge\ChunkDraft;
 use Carbon\CarbonImmutable;
 use Database\Factories\VehicleFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -53,7 +57,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'seats', 'exterior_color', 'exterior_hex', 'interior_color', 'km', 'price', 'condition', 'status',
     'towing_lb', 'range_km', 'fuel_l_per_100km', 'features', 'description', 'arrived_on',
 ])]
-class Vehicle extends Model
+#[ObservedBy(KnowledgeObserver::class)]
+class Vehicle extends Model implements Indexable
 {
     /** @use HasFactory<VehicleFactory> */
     use HasFactory;
@@ -111,5 +116,47 @@ class Vehicle extends Model
     protected function available(Builder $query): void
     {
         $query->where('status', VehicleStatus::Available);
+    }
+
+    /**
+     * One chunk per vehicle, written the way a salesperson would describe it, so questions like
+     * "a 3-row hybrid that tows 3,500 lb" match on meaning and on the numbers.
+     */
+    public function toChunks(): array
+    {
+        $specs = array_filter([
+            "{$this->condition->label()} {$this->body_style->label()}, {$this->powertrain->label()}, {$this->drivetrain->label()}",
+            "{$this->seats} seats",
+            $this->towing_lb ? 'tows up to '.number_format($this->towing_lb).' lb' : null,
+            $this->range_km ? "{$this->range_km} km electric range" : null,
+            // Formatted explicitly: a fresh model holds 6.0 as a float, a loaded one as the string "6.0",
+            // and the text has to be identical either way or the hash changes and it gets re-embedded.
+            $this->fuel_l_per_100km !== null ? number_format((float) $this->fuel_l_per_100km, 1).' L/100 km' : null,
+            number_format($this->km).' km',
+            "{$this->exterior_color} with {$this->interior_color} interior",
+        ]);
+
+        $content = sprintf(
+            '%s. Stock %s, VIN %s. Price $%s. Status: %s. %s.
+
+%s
+
+Features: %s.',
+            $this->title,
+            $this->stock_number,
+            $this->vin,
+            number_format($this->price),
+            $this->status->label(),
+            ucfirst(implode('; ', $specs)),
+            $this->description,
+            implode(', ', $this->features),
+        );
+
+        return [new ChunkDraft($content, "Inventory: {$this->title} ({$this->stock_number})")];
+    }
+
+    public function indexLeadId(): ?int
+    {
+        return null;
     }
 }
