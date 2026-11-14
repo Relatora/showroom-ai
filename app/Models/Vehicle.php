@@ -119,6 +119,26 @@ class Vehicle extends Model implements Indexable
     }
 
     /**
+     * The facts that decide whether a vehicle suits someone, in one line. The AI features put
+     * this in their prompts, so they quote real numbers instead of guessing them. Shorter than
+     * the search text on purpose: every token of prompt costs time on a local model.
+     */
+    public function keyFacts(): string
+    {
+        return implode(', ', array_filter([
+            $this->title,
+            $this->condition->label(),
+            '$'.number_format($this->price),
+            number_format($this->km).' km',
+            "{$this->seats} seats",
+            $this->powertrain->label(),
+            $this->drivetrain->label(),
+            $this->towing_lb ? 'tows '.number_format($this->towing_lb).' lb' : null,
+            $this->range_km ? "{$this->range_km} km electric range" : null,
+        ]));
+    }
+
+    /**
      * One chunk per vehicle, written the way a salesperson would describe it, so questions like
      * "a 3-row hybrid that tows 3,500 lb" match on meaning and on the numbers.
      */

@@ -93,6 +93,9 @@ export default defineConfig({
             'composer.json',
             'resources/js/components/ui/*',
             'resources/views/mail/*',
+            // Written by `php artisan showroom:eval --write`; reformatting it would make every
+            // eval run show up as a diff.
+            'evals/results.md',
         ],
         sortTailwindcss: {
             functions: ['clsx', 'cn', 'cva'],

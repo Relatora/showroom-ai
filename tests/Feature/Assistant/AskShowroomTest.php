@@ -24,18 +24,6 @@ beforeEach(function () {
     ]);
 });
 
-/**
- * Splits a server-sent event stream into [event name, decoded data] pairs.
- *
- * @return list<array{0: string, 1: mixed}>
- */
-function sseEvents(string $body): array
-{
-    preg_match_all('/^event: (\w+)\ndata: (.*)$/m', $body, $matches, PREG_SET_ORDER);
-
-    return array_map(fn (array $m) => [$m[1], json_decode($m[2], true)], $matches);
-}
-
 it('shows the assistant with what it can draw on', function () {
     $rep = User::factory()->create();
     Lead::factory()->assignedTo($rep)->count(2)->create();
@@ -66,7 +54,7 @@ it('streams the sources first, then the answer, then timings', function () {
             'label' => 'Trade-in Appraisal Policy (F-204)',
             'section' => 'How long an offer is valid',
         ])
-        ->and(collect($events)->where(0, 'delta')->pluck('1.text')->join(''))->toBe('Offers are valid for 7 days [1].')
+        ->and(sseText($body))->toBe('Offers are valid for 7 days [1].')
         ->and(end($names))->toBe('done');
 
     // The retrieved passage went into the prompt, numbered so the model can cite it.
