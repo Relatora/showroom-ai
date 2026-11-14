@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Ai\Agents\HealthCheckAgent;
+use App\Ai\LocalModelOptions;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Laravel\Ai\Embeddings;
 use Throwable;
-
-use function Laravel\Ai\agent;
 
 /**
  * A quick smoke test for the AI setup: can we embed text, and can the chat model answer?
@@ -31,10 +31,13 @@ class CheckAi extends Command
 
         $this->components->twoColumnDetail('Provider', $provider);
         $this->components->twoColumnDetail('Endpoint', (string) config("ai.providers.{$provider}.url"));
+        $this->components->twoColumnDetail('Runs on', LocalModelOptions::chat() === ['num_gpu' => 0] ? 'CPU (OLLAMA_NUM_GPU=0)' : 'GPU if available');
         $this->newLine();
 
         $embeddingsOk = $this->check("Embeddings ({$embedModel})", function () use ($expectedDimensions) {
             $vector = Embeddings::for(['A 3-row hybrid SUV with all-wheel drive.'])
+                ->withProviderOptions(LocalModelOptions::embeddings())
+                ->timeout(120)
                 ->generate()
                 ->embeddings[0];
 
@@ -52,8 +55,7 @@ class CheckAi extends Command
         });
 
         $chatOk = $this->check("Chat ({$chatModel})", function () {
-            $reply = (string) agent('You are a health check. Follow instructions exactly.')
-                ->prompt('Reply with the single word: ready');
+            $reply = (string) (new HealthCheckAgent)->prompt('Reply with the single word: ready');
 
             return '"'.trim($reply).'"';
         });

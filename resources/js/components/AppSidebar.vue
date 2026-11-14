@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpenText, FolderGit2 } from '@lucide/vue';
+import { FileCode2, FolderGit2 } from '@lucide/vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -27,7 +27,7 @@ const footerNavItems: NavItem[] = [
     {
         title: 'Design notes',
         href: 'https://github.com/Relatora/showroom-ai/tree/main/docs',
-        icon: BookOpenText,
+        icon: FileCode2,
     },
 ];
 </script>

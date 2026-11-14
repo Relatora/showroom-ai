@@ -14,7 +14,9 @@ Horizon · RustFS (S3-compatible) · Ollama · Laravel AI SDK · Laravel MCP
 
 ## Running it locally
 
-You need Docker, Node 22+ and [Ollama](https://ollama.com).
+You need Docker, Node 22+ and [Ollama](https://ollama.com) with `nomic-embed-text` and
+`qwen2.5:7b` pulled. If your GPU driver is too old for Ollama, set `OLLAMA_NUM_GPU=0` in `.env`
+to run the models on the CPU.
 
 ```bash
 cp .env.example .env
@@ -23,6 +25,7 @@ docker run --rm -v "$(pwd):/app" -w /app composer:2 composer install --ignore-pl
 ./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail artisan migrate --seed
 ./vendor/bin/sail artisan showroom:storage-init
+./vendor/bin/sail artisan showroom:index   # makes the CRM and documents searchable, about a minute
 npm install && npm run dev
 ```
 

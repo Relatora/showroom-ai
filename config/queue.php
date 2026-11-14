@@ -77,7 +77,8 @@ return [
         // has to sit above the worker timeout in config/horizon.php, otherwise Redis hands the
         // same job to a second worker while the first one is still busy with it.
         'redis-ai' => [
-            'driver' => 'redis',
+            // Tests run this queue synchronously (phpunit.xml sets AI_QUEUE_DRIVER=sync).
+            'driver' => env('AI_QUEUE_DRIVER', 'redis'),
             'connection' => env('REDIS_QUEUE_CONNECTION', 'default'),
             'queue' => 'ai',
             'retry_after' => 660,

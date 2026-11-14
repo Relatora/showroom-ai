@@ -2,8 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\Activity;
+use App\Models\Customer;
+use App\Models\Document;
+use App\Models\Lead;
+use App\Models\User;
+use App\Models\Vehicle;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +49,17 @@ class AppServiceProvider extends ServiceProvider
         // Inertia props are plain page data, not a public JSON API, so resources shouldn't wrap
         // themselves in a "data" key. Paginated lists still get data/links/meta.
         JsonResource::withoutWrapping();
+
+        // Polymorphic columns (chunks.source_type) store short names instead of PHP class names,
+        // so renaming or moving a model never orphans rows in the database.
+        Relation::enforceMorphMap([
+            'activity' => Activity::class,
+            'customer' => Customer::class,
+            'document' => Document::class,
+            'lead' => Lead::class,
+            'user' => User::class,
+            'vehicle' => Vehicle::class,
+        ]);
 
         DB::prohibitDestructiveCommands(
             app()->isProduction(),
