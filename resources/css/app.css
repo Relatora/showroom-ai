@@ -161,7 +161,7 @@
     --input: oklch(0.36 0.013 240);
     --ring: oklch(0.74 0.12 163);
 
-    --chart-1: oklch(0.74 0.12 163);
+    --chart-1: oklch(0.64 0.12 163); /* validated for the dark chart surface */
     --chart-2: oklch(0.74 0.1 245);
     --chart-3: oklch(0.82 0.15 82);
     --chart-4: oklch(0.72 0.16 27);
