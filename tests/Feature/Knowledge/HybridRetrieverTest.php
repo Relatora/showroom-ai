@@ -27,12 +27,20 @@ function documentChunk(string $heading, string $content, int $position = 0): Chu
 }
 
 it('ranks results that both searches agree on above results from only one', function () {
-    $fused = HybridRetriever::fuse([10, 20, 30], [30, 40]);
+    $fused = HybridRetriever::fuse(['a' => [10, 20, 30], 'b' => [30, 40]], []);
 
     // 30 is third in one list and first in the other, so it beats 10, which is only in one.
     expect(array_key_first($fused))->toBe(30)
         ->and($fused[30])->toEqualWithDelta(1 / 63 + 1 / 61, 1e-9)
         ->and(array_keys($fused))->toHaveCount(4);
+});
+
+it('lets one ranking count for less than the other', function () {
+    // Equal weights: 1 and 2 tie. Halve the second list's weight and the first list wins.
+    $fused = HybridRetriever::fuse(['a' => [1], 'b' => [2]], ['a' => 1.0, 'b' => 0.5]);
+
+    expect(array_keys($fused))->toBe([1, 2])
+        ->and($fused[2])->toEqualWithDelta(0.5 / 61, 1e-9);
 });
 
 it('finds passages by exact policy code and wording', function () {
@@ -73,6 +81,22 @@ it('can be limited to some kinds of source', function () {
         ->all();
 
     expect($types)->toBe(['document']);
+});
+
+it('treats codes, stock numbers and VINs as identifiers, but not plain numbers', function () {
+    expect(HybridRetriever::identifiers('Is S1046 covered by W-120? VIN 98RCUNY7KNFLRWJGJ, 2011 model, 500 km'))
+        ->toBe(['S1046', 'W-120', '98RCUNY7KNFLRWJGJ']);
+});
+
+it('puts an exact identifier match first, above passages that share common words', function () {
+    foreach (range(1, 5) as $i) {
+        documentChunk("Customer notes {$i}", 'The customer is asking about pricing and the customer wants a call.', $i);
+    }
+    $vin = documentChunk('Inventory: Kia Sorento (S1031)', 'Stock S1031, VIN 98RCUNY7KNFLRWJGJ.', 9);
+
+    $results = app(HybridRetriever::class)->search('Customer is asking about VIN 98RCUNY7KNFLRWJGJ', User::factory()->create());
+
+    expect($results[0]->chunk->id)->toBe($vin->id);
 });
 
 it('returns nothing for an empty question', function () {
