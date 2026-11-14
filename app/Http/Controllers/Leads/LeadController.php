@@ -51,7 +51,8 @@ class LeadController extends Controller
             'view' => $view,
             // Same shape either way (a "data" key), so the page doesn't care which view it's in.
             'leads' => $view === 'board' ? ['data' => LeadResource::collection($leads)] : LeadResource::collection($leads),
-            'filters' => $filters,
+            // Cast to an object: an empty PHP array would reach JS as [], where filters.sort is Array.prototype.sort.
+            'filters' => (object) $filters,
             'team' => $user->seesWholePipeline()
                 ? UserSummaryResource::collection(User::where('role', UserRole::Rep)->orderBy('name')->get())
                 : [],
