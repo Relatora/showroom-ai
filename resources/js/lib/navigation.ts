@@ -1,5 +1,6 @@
-import { LayoutGrid } from '@lucide/vue';
+import { KanbanSquare, LayoutGrid } from '@lucide/vue';
 import { dashboard } from '@/routes';
+import { index as leads } from '@/routes/leads';
 import type { NavItem } from '@/types';
 
 /**
@@ -13,5 +14,10 @@ export const mainNavigation: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Leads',
+        href: leads(),
+        icon: KanbanSquare,
     },
 ];

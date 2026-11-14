@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Support\CrmOptions;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -42,6 +44,9 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            // Enum labels and colours for the whole app. Sent once and then kept by the client
+            // across visits, since they only change when we deploy.
+            'crm' => $request->user() ? Inertia::once(fn () => CrmOptions::all()) : null,
         ];
     }
 }

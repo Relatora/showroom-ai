@@ -263,7 +263,7 @@ const optionId = (index: number) => `${listId}-option-${index}`;
                         class="mb-1 last:mb-0"
                     >
                         <p
-                            class="px-3 pt-2 pb-1 text-[11px] font-medium tracking-wider text-muted-foreground uppercase"
+                            class="px-3 pt-2 pb-1 text-xs font-medium text-muted-foreground"
                         >
                             {{ group }}
                         </p>

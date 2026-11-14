@@ -28,14 +28,11 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.ts'],
             refresh: true,
             fonts: [
-                bunny('Instrument Sans', {
-                    weights: [400, 500, 600, 700],
+                // Modelled on North American highway-sign lettering. One family for the whole UI.
+                bunny('Overpass', {
+                    weights: [400, 500, 600, 700, 800],
                 }),
-                // Display face for headings and big numbers: wide, a little automotive.
-                bunny('Unbounded', {
-                    weights: [500, 600, 700],
-                }),
-                // VINs, stock numbers and prices line up properly in a monospace face.
+                // Only for codes: VINs and stock numbers.
                 bunny('JetBrains Mono', {
                     weights: [400, 500],
                 }),

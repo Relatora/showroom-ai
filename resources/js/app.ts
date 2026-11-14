@@ -36,7 +36,7 @@ void createInertiaApp({
         visitOptions: () => ({ viewTransition: true }),
     },
     progress: {
-        color: 'oklch(0.7 0.19 46)',
+        color: 'oklch(0.6 0.11 163)',
         delay: 150,
     },
 });
