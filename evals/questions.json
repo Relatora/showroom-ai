@@ -1,0 +1,177 @@
+{
+    "about": "Retrieval eval for showroom:eval. Most questions are phrased the way a salesperson would ask, deliberately avoiding the policy's own wording, and name the policy section that answers them. The last few use exact identifiers (policy codes, stock numbers, VINs), the case keyword search exists for. A question counts as a hit@k when the expected section or vehicle is in the top k results.",
+    "questions": [
+        {
+            "question": "My customer's trade got appraised last week, is that number still good?",
+            "document": "F-204",
+            "section": "How long an offer is valid"
+        },
+        {
+            "question": "Can I give someone a trade value over the phone before we see the car?",
+            "document": "F-204",
+            "section": "Appraisal timing"
+        },
+        {
+            "question": "Will we put a 2011 Civic with 260,000 km on the front line?",
+            "document": "F-204",
+            "section": "Older and high-mileage vehicles"
+        },
+        {
+            "question": "Customer owes more on their loan than the truck is worth. What can we do?",
+            "document": "F-204",
+            "section": "Liens and payouts"
+        },
+        {
+            "question": "They lost the spare key fob. Does that change the trade offer?",
+            "document": "F-204",
+            "section": "What the customer needs to bring"
+        },
+        {
+            "question": "How much do we take to put a car on hold, and for how long?",
+            "document": "S-110",
+            "section": "Holding a vehicle"
+        },
+        {
+            "question": "Financing fell through. When does the customer get their deposit back?",
+            "document": "S-110",
+            "section": "When the deposit becomes non-refundable"
+        },
+        {
+            "question": "Can someone leave $2,000 in cash to hold a car?",
+            "document": "S-110",
+            "section": "Accepted payment for deposits"
+        },
+        {
+            "question": "What's the cheapest Northgate Shield plan and what does it cost?",
+            "document": "W-120",
+            "section": "Plans and prices"
+        },
+        {
+            "question": "Is there a deductible on the extended warranty?",
+            "document": "W-120",
+            "section": "Deductible"
+        },
+        {
+            "question": "Customer wants to cancel their extended warranty after two months. Refund?",
+            "document": "W-120",
+            "section": "Transfers and cancellation"
+        },
+        {
+            "question": "Does the extended plan pay for new brake pads?",
+            "document": "W-120",
+            "section": "What isn't covered"
+        },
+        {
+            "question": "What rate can I quote on a new Ioniq 5?",
+            "document": "F-300",
+            "section": "Promotional rates on new vehicles"
+        },
+        {
+            "question": "What interest rate does someone rebuilding their credit get on a used car?",
+            "document": "F-300",
+            "section": "Used and certified pre-owned"
+        },
+        {
+            "question": "Can a first-time buyer bring their dad to co-sign?",
+            "document": "F-300",
+            "section": "Co-signers"
+        },
+        {
+            "question": "What does it cost if a lease customer goes over their kilometres?",
+            "document": "F-300",
+            "section": "Leasing"
+        },
+        {
+            "question": "Can a 7 year old SUV with 90,000 km be sold as certified?",
+            "document": "W-200",
+            "section": "Eligibility"
+        },
+        {
+            "question": "The customer regrets their certified purchase a week later. Options?",
+            "document": "W-200",
+            "section": "30-day exchange"
+        },
+        {
+            "question": "Does a certified car come with any warranty of its own?",
+            "document": "W-200",
+            "section": "Warranty"
+        },
+        {
+            "question": "What kind of charger does a customer need at home for an EV?",
+            "document": "P-410",
+            "section": "Home charging"
+        },
+        {
+            "question": "Can I promise a customer the federal EV rebate on their quote?",
+            "document": "P-410",
+            "section": "Incentives"
+        },
+        {
+            "question": "A G2 driver wants to test drive alone. Is that allowed?",
+            "document": "S-105",
+            "section": "Before the drive"
+        },
+        {
+            "question": "How fast do we have to answer a lead that came in through the website?",
+            "document": "S-100",
+            "section": "Response times"
+        },
+        {
+            "question": "The customer isn't answering. How often should I keep reaching out?",
+            "document": "S-100",
+            "section": "Follow-up cadence"
+        },
+        {
+            "question": "How big a discount can I give without asking my manager?",
+            "document": "S-120",
+            "section": "Discount authority"
+        },
+        {
+            "question": "A car has been sitting on the lot for three months. Is there more room on price?",
+            "document": "S-120",
+            "section": "Aged inventory"
+        },
+        {
+            "question": "When should I call the customer after they take delivery?",
+            "document": "S-130",
+            "section": "After delivery"
+        },
+        {
+            "question": "What has to be done to the car before the customer comes to pick it up?",
+            "document": "S-130",
+            "section": "Before the customer arrives"
+        },
+        {
+            "question": "W-120 deductible",
+            "document": "W-120",
+            "section": "Deductible"
+        },
+        {
+            "question": "S-110 rules for extending a hold",
+            "document": "S-110",
+            "section": "Extending a hold"
+        },
+        {
+            "question": "OMVIC all-in advertised price",
+            "document": "S-120",
+            "section": "All-in pricing"
+        },
+        {
+            "question": "CASL consent before texting a customer",
+            "document": "S-100",
+            "section": "Consent"
+        },
+        {
+            "question": "Is S1046 still on the lot?",
+            "stock": "S1046"
+        },
+        {
+            "question": "Customer is asking about VIN 98RCUNY7KNFLRWJGJ",
+            "stock": "S1031"
+        },
+        {
+            "question": "What's the price on the Mach-E GT?",
+            "stock": "S1023"
+        }
+    ]
+}
