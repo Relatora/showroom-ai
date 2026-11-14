@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Settings\McpTokenController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
 use Illuminate\Auth\Middleware\RequirePassword;
@@ -24,4 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('user-password.update');
 
     Route::inertia('settings/appearance', 'settings/Appearance')->name('appearance.edit');
+
+    Route::get('settings/mcp', [McpTokenController::class, 'index'])->name('mcp-tokens.index');
+    Route::post('settings/mcp', [McpTokenController::class, 'store'])->middleware('throttle:6,1')->name('mcp-tokens.store');
+    Route::delete('settings/mcp/{token}', [McpTokenController::class, 'destroy'])->name('mcp-tokens.destroy');
 });

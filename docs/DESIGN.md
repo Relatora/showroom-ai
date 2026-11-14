@@ -88,7 +88,8 @@ Documented in `AI_WORKFLOW.md`.
 ## 5. MCP server
 
 Laravel exposes an MCP server (`/mcp` over HTTP with a Sanctum token, plus
-`php artisan mcp:start showroom` over stdio).
+`php artisan showroom:mcp --user=…` over stdio). Setup and the security model are in
+[MCP.md](MCP.md).
 
 | Tool                     | Purpose                                                                                       |
 | ------------------------ | --------------------------------------------------------------------------------------------- |
@@ -97,7 +98,7 @@ Laravel exposes an MCP server (`/mcp` over HTTP with a Sanctum token, plus
 | `find_matching_vehicles` | Hybrid search over inventory                                                                  |
 | `search_knowledge_base`  | RAG retrieval over policies and docs, returning cited chunks                                  |
 | `log_activity`           | Add a note or call to a lead. This is the only write tool, and the policy check still applies |
-| `pipeline_summary`       | Lead counts by stage, stale leads, per-rep load (manager only)                                |
+| `pipeline_summary`       | Lead counts by stage, stale leads, today's follow-ups and appointments (scoped to the user)   |
 
 Plus one MCP **prompt** (`daily_lead_review`) and policy documents exposed as MCP
 **resources**. Example manager question in Claude Desktop: _"Which hot leads haven't been

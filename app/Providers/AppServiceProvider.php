@@ -45,6 +45,10 @@ class AppServiceProvider extends ServiceProvider
     protected function configureRateLimits(): void
     {
         RateLimiter::for('assistant', fn ($request) => Limit::perMinute(10)->by($request->user()?->id ?: $request->ip()));
+
+        // MCP tool calls are mostly quick database reads, and an agent makes several per question,
+        // so they get a roomier budget of their own.
+        RateLimiter::for('mcp', fn ($request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
     }
 
     /**
