@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowLeft } from '@lucide/vue';
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { dateTime } from '@/lib/format';
 import { index as knowledgeIndex } from '@/routes/knowledge';
 
@@ -26,6 +26,12 @@ const { document, chunks } = defineProps<{
     };
     chunks: Chunk[];
 }>();
+
+// A citation links here as #passage-N. CSS :target would be the obvious way to highlight it,
+// but Inertia navigates with history.pushState, which doesn't update :target, so we read the
+// hash ourselves once the page is on screen.
+const cited = ref<string | null>(null);
+onMounted(() => (cited.value = window.location.hash.slice(1) || null));
 
 // Built as one string so template line breaks can't sneak a space in before the commas.
 const meta = computed(() =>
@@ -84,7 +90,12 @@ defineOptions({
                     v-for="chunk in chunks"
                     :id="`passage-${chunk.position}`"
                     :key="chunk.id"
-                    class="scroll-mt-20 rounded-xl border bg-card p-4 transition-shadow target:ring-2 target:ring-primary"
+                    :class="[
+                        'scroll-mt-20 rounded-xl border bg-card p-4 transition-shadow',
+                        cited === `passage-${chunk.position}`
+                            ? 'ring-2 ring-primary'
+                            : '',
+                    ]"
                 >
                     <div class="mb-2 flex items-baseline justify-between gap-3">
                         <h3 class="text-sm font-bold">

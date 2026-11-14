@@ -4,9 +4,11 @@ import {
     CarFront,
     KanbanSquare,
     LayoutGrid,
+    Signpost,
 } from '@lucide/vue';
 import { dashboard } from '@/routes';
 import { index as appointments } from '@/routes/appointments';
+import { index as assistant } from '@/routes/assistant';
 import { index as inventory } from '@/routes/inventory';
 import { index as knowledge } from '@/routes/knowledge';
 import { index as leads } from '@/routes/leads';
@@ -20,6 +22,7 @@ import type { NavItem } from '@/types';
  */
 export const mainNavigation: NavItem[] = [
     { title: 'Dashboard', href: dashboard(), icon: LayoutGrid },
+    { title: 'Ask Showroom', href: assistant(), icon: Signpost },
     { title: 'Leads', href: leads(), icon: KanbanSquare },
     { title: 'Inventory', href: inventory(), icon: CarFront },
     { title: 'Appointments', href: appointments(), icon: CalendarDays },
