@@ -9,9 +9,7 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
         <AppLogoIcon class="size-5" />
     </div>
     <div class="ml-1 grid flex-1 text-left leading-tight">
-        <span
-            class="truncate font-display text-[13px] font-semibold tracking-tight"
-        >
+        <span class="truncate text-[14px] font-bold tracking-tight">
             Showroom
             <span
                 class="ml-0.5 rounded bg-primary/15 px-1 py-px text-[10px] font-semibold text-primary"

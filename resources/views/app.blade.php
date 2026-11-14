@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#f8f6f2" media="(prefers-color-scheme: light)">
-        <meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)">
+        <meta name="theme-color" content="#f1f4f6" media="(prefers-color-scheme: light)">
+        <meta name="theme-color" content="#1e2429" media="(prefers-color-scheme: dark)">
 
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
         <script>
@@ -24,11 +24,11 @@
         {{-- Inline style to set the HTML background color based on our theme in app.css --}}
         <style>
             html {
-                background-color: oklch(0.985 0.004 85);
+                background-color: oklch(0.965 0.005 230);
             }
 
             html.dark {
-                background-color: oklch(0.155 0.01 265);
+                background-color: oklch(0.22 0.012 240);
             }
         </style>
 
