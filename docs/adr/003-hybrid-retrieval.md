@@ -32,7 +32,7 @@ different scales.
 
 ## Tuning with the eval (v0.4.0)
 
-The first run of `showroom:eval` was humbling. Plain RRF with equal weights scored *worse* than
+The first run of `showroom:eval` was humbling. Plain RRF with equal weights scored _worse_ than
 vector search alone on hit@1 (0.79 against 0.86). The OR'd keyword query matches common words
 like "customer" in hundreds of timeline notes, and that noise pushed good vector hits down.
 
@@ -54,6 +54,6 @@ Result: hybrid hit@5 is 0.97 against 0.94 for vectors alone. The full table is i
 
 - **Vectors only:** simpler, but it misses exact codes. The eval set has questions that prove it.
 - **Weighted score blending:** needs score normalisation and hand-tuned weights. RRF is more robust.
-  (Weighted *RRF* is different: the weights scale rank-based scores, so nothing needs normalising.)
+  (Weighted _RRF_ is different: the weights scale rank-based scores, so nothing needs normalising.)
 - **A cross-encoder re-ranker:** better precision, but another model to run on an 8 GB GPU.
   Worth revisiting later.

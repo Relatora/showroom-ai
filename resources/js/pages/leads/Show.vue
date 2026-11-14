@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ArrowLeft, CalendarClock, Mail, MapPin, Phone } from '@lucide/vue';
+import LeadAssistant from '@/components/assistant/LeadAssistant.vue';
 import ActivityTimeline from '@/components/crm/ActivityTimeline.vue';
 import StageStepper from '@/components/crm/StageStepper.vue';
 import ToneBadge from '@/components/crm/ToneBadge.vue';
@@ -146,6 +147,8 @@ function reassign(event: Event): void {
                         </div>
                     </dl>
                 </section>
+
+                <LeadAssistant :lead="lead" />
 
                 <ActivityTimeline :lead="lead" />
             </div>

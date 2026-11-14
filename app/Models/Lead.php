@@ -163,9 +163,19 @@ class Lead extends Model implements Indexable
      */
     public function toChunks(): array
     {
+        return [new ChunkDraft($this->summary(), "Lead: {$this->customer->name}")];
+    }
+
+    /**
+     * The lead in a few plain sentences: who, what they want, budget, trade-in. It's what gets
+     * indexed for search, and what the AI features (inventory matching, follow-up drafts) are
+     * told about the lead, so they all work from the same description.
+     */
+    public function summary(): string
+    {
         $this->loadMissing(['customer', 'assignee', 'vehicle']);
 
-        $content = implode(' ', array_filter([
+        return implode(' ', array_filter([
             "{$this->customer->name} is a {$this->temperature->label()} lead in the {$this->stage->label()} stage, from {$this->source->label()}.",
             "Looking for: {$this->interest}",
             $this->budget_max ? 'Budget up to $'.number_format($this->budget_max).'.' : null,
@@ -174,8 +184,6 @@ class Lead extends Model implements Indexable
             $this->assignee ? "Sales rep: {$this->assignee->name}." : 'Not assigned to a rep yet.',
             $this->lost_reason ? "Lost because: {$this->lost_reason}." : null,
         ]));
-
-        return [new ChunkDraft($content, "Lead: {$this->customer->name}")];
     }
 
     public function indexLeadId(): ?int

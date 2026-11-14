@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Inventory\VehicleController;
 use App\Http\Controllers\Knowledge\DocumentController;
 use App\Http\Controllers\Leads\LeadActivityController;
+use App\Http\Controllers\Leads\LeadAssistantController;
 use App\Http\Controllers\Leads\LeadController;
 use App\Http\Controllers\Leads\LeadStageController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('leads', LeadController::class)->only(['index', 'show', 'store', 'update']);
     Route::patch('leads/{lead}/stage', [LeadStageController::class, 'update'])->name('leads.stage.update');
     Route::post('leads/{lead}/activities', [LeadActivityController::class, 'store'])->name('leads.activities.store');
+    // The AI helpers on a lead's page share the assistant's per-user budget.
+    Route::middleware('throttle:assistant')->group(function () {
+        Route::post('leads/{lead}/matches', [LeadAssistantController::class, 'matches'])->name('leads.matches');
+        Route::post('leads/{lead}/follow-up', [LeadAssistantController::class, 'followUp'])->name('leads.follow-up');
+    });
 
     Route::get('inventory', [VehicleController::class, 'index'])->name('inventory.index');
     Route::get('inventory/{vehicle}', [VehicleController::class, 'show'])->name('inventory.show');
