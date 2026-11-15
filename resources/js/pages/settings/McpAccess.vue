@@ -195,6 +195,11 @@ const desktopConfig = computed(() =>
                     size="sm"
                     variant="secondary"
                     class="absolute top-2 right-2"
+                    :aria-label="
+                        copied === desktopConfig
+                            ? 'Copied'
+                            : 'Copy configuration'
+                    "
                     @click="copy(desktopConfig)"
                 >
                     <Check v-if="copied === desktopConfig" class="size-3.5" />
