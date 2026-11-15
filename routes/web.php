@@ -9,9 +9,10 @@ use App\Http\Controllers\Leads\LeadActivityController;
 use App\Http\Controllers\Leads\LeadAssistantController;
 use App\Http\Controllers\Leads\LeadController;
 use App\Http\Controllers\Leads\LeadStageController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'Welcome')->name('home');
+Route::get('/', WelcomeController::class)->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');

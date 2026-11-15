@@ -118,7 +118,10 @@ const repRows = computed<BarRow[]>(() =>
             </Link>
         </header>
 
-        <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <!-- minmax(0,1fr) on mobile too: a bare "grid" column grows to fit the longest truncated line. -->
+        <div
+            class="grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]"
+        >
             <section aria-labelledby="call-first-heading">
                 <div class="mb-3 flex items-baseline justify-between">
                     <h2 id="call-first-heading" class="text-base font-bold">
