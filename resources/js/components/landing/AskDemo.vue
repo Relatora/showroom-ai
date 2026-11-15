@@ -7,22 +7,17 @@ import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue';
  *
  * It's a recording, not a live call: the page is public and the model runs on one CPU, so
  * letting visitors fire questions at it would be both slow and an easy way to knock it over.
- * The question and sources are real (from the demo policies) and the answer is in the shape the
- * assistant gives: short, grounded, every claim cited. The text
+ * The question, answer and sources are what the assistant gave on the demo data (the
+ * screenshot in the README is the same answer). Only two of the five sources are shown. The text
  * "streams" in once the card scrolls into view, the same way the real one does.
  */
 const question = 'Can a customer take a car home overnight?';
 
 // The answer, split so the citation markers can be drawn as chips rather than plain "[1]".
 const parts: Array<string | number> = [
-    'Yes, for hot leads in the Negotiation stage, with sales manager approval. ',
+    'A customer can take a car home overnight if they are in the Negotiation stage, the vehicle is valued at $25,000 or more, and it’s not a new model in its first month of release ',
     1,
-    ' They can keep the vehicle for up to 24 hours, sign the overnight agreement and have their insurance recorded, and it must be back by 10 a.m. ',
-    1,
-    ' It isn’t available on vehicles under $25,000 or on new models in their first month. ',
-    1,
-    ' If they want the car held while they decide, a refundable $500 deposit holds it for 72 hours. ',
-    2,
+    '. The customer must sign an overnight agreement, provide insurance details, and return the vehicle by 10 a.m. the next day. Overnight test drives require sales manager approval.',
 ];
 
 const sources = [
@@ -33,8 +28,8 @@ const sources = [
     },
     {
         n: 2,
-        title: 'Deposit and Vehicle Hold Policy (S-110)',
-        section: 'Holding a vehicle',
+        title: 'Vehicle Delivery Checklist (S-130)',
+        section: 'After delivery',
     },
 ];
 
