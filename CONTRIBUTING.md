@@ -38,6 +38,13 @@ To have it run automatically before every push:
 git config core.hooksPath .githooks
 ```
 
+## Keep PRs reviewable
+
+Aim for a PR someone can review properly in 20 minutes: roughly 400 changed lines or fewer,
+not counting lock files, generated files and screenshots. Bigger than that, split it. Land
+the migration and model first, then the page, then the polish. Two small PRs get a better
+review than one big one, every time.
+
 ## Tests
 
 - Feature tests for anything a user or an AI client can do. Unit tests for pure logic
