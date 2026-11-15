@@ -98,7 +98,7 @@ can run `docker compose exec` already has the whole database, so this adds no ne
             "args": [
                 "compose",
                 "--project-directory",
-                "C:\\AWrk\\Personal\\showroom-ai",
+                "C:\\path\\to\\showroom-ai",
                 "exec",
                 "-T",
                 "-u",
