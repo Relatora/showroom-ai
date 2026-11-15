@@ -9,6 +9,9 @@ return [
     // The dealership the assistant works for. It shows up in prompts and email signatures.
     'dealership' => env('SHOWROOM_DEALERSHIP', 'Northgate Motors'),
 
+    // Linked from the public landing page.
+    'repository' => 'https://github.com/Relatora/showroom-ai',
+
     'assistant' => [
         // How many passages go into each prompt. More context helps with broad questions, but
         // every passage costs prompt-processing time, which is very noticeable on a CPU.
