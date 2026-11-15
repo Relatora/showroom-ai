@@ -258,6 +258,19 @@
     box-shadow: 0 0 0 3px oklch(from var(--primary) l c h / 0.3);
 }
 
+/* Scroll reveal (directives/reveal.ts). Only hidden once the directive has run. */
+[data-reveal] {
+    transition:
+        opacity 0.7s var(--ease-out-expo),
+        transform 0.7s var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal='hidden'] {
+    opacity: 0;
+    transform: translateY(24px);
+}
+
 /* Inertia page swaps use the View Transitions API (see app.ts). This is the cross-fade. */
 ::view-transition-old(root) {
     animation: 180ms ease-in both fade reverse;
