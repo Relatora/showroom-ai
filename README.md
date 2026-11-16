@@ -8,7 +8,10 @@ server.
 Everything runs on one machine and costs nothing: local models through Ollama, PostgreSQL with
 pgvector, and S3-compatible storage in Docker. No API keys, no cloud account.
 
-![The Showroom AI landing page](docs/screenshots/landing-dark.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/hero-dark.webp">
+  <img alt="The Showroom AI landing page, with traffic driving into the city" src="docs/screenshots/hero-light.webp">
+</picture>
 
 ## What's in it
 
