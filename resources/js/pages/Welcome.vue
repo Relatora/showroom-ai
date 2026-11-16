@@ -189,7 +189,7 @@ const format = new Intl.NumberFormat('en-CA');
         <main id="main">
             <!-- Hero -->
             <section
-                class="relative overflow-hidden pt-12 pb-52 sm:pt-20 sm:pb-64"
+                class="relative overflow-hidden pt-12 pb-64 sm:pt-20 sm:pb-80"
                 aria-labelledby="hero-title"
             >
                 <!-- A faint lane grid, fading out, so the hero isn't a flat colour. -->
