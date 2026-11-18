@@ -13,6 +13,17 @@ pgvector, and S3-compatible storage in Docker. No API keys, no cloud account.
   <img alt="The Showroom AI landing page, with traffic driving into the city" src="docs/screenshots/hero-light.webp">
 </picture>
 
+## Demo
+
+[![A 98-second walkthrough: a sales rep's dashboard, leads, a customer's timeline, stock and policies, then the assistant answering with numbered citations, masking a phone number, matching stock to a lead and drafting a follow-up email](docs/demo/showroom-ai-demo.gif)](docs/demo/showroom-ai-demo.mp4)
+
+A 98-second walkthrough, signed in as a sales rep. It covers the CRM (dashboard, leads, a customer's
+timeline, stock, policy documents), then the assistant: answers with numbered citations,
+retrieval limited to the rep's own leads, a phone number masked as `[phone]` before it reaches the
+model, stock matched to a lead, and a follow-up email that stays a draft until a person sends it.
+[Watch the full-quality MP4](docs/demo/showroom-ai-demo.mp4). It was recorded on a CPU-only
+machine, so the stretches marked "sped up" play at 4x. All data is the seeded demo dealership.
+
 ## What's in it
 
 |                                                                                                                                                                                                      |                                                                             |
