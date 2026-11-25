@@ -198,3 +198,9 @@ never call a real model: embeddings and agents are faked.
 Laravel 13 · PHP 8.4 · Inertia 3 · Vue 3.5 + TypeScript · Tailwind 4 · PostgreSQL 18 +
 pgvector · Redis + Horizon · RustFS · Ollama · Laravel AI SDK · Laravel MCP · Sanctum · Pest ·
 Larastan
+
+## License
+
+Copyright (c) 2026 Amr Abdallah. All rights reserved.
+
+The source is public to read, not to use. You may view it to evaluate my work, but you may not run, copy, modify, redistribute or train AI models on it. See [LICENSE](LICENSE) for the full terms.
